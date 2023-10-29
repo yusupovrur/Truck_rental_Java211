@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- добавление фрагмента общего содержимого тега head -->
+    <th:block th:replace="layout/page-layout.html :: common-head-content"/>
+</head>
+<body class="comp-form">
+
+<!-- добавление фрагмент шапки -->
+<th:block th:replace="layout/page-layout.html :: page-header(page='company')"/>
+
+<div class="container-sm align-content-center text-center mask p-5 text-white"
+     style="background-color: rgba(0, 0, 0, 0.7);">
+    <!-- форму с использованием bootstrap -->
+    <div class="text-center mb-5 text-white">
+        <h1>Добавление новой компании</h1>
+    </div>
+    <form method="post" th:action="@{/company/new}" th:object="${company}">
+        <!-- name -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="name">Наименование: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="name" th:field="*{name}" required minlength="1">
+            </div>
+        </div>
+        <!-- email -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="email">Email: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="email" id="email" th:field="*{email}" required>
+            </div>
+        </div>
+        <!-- website -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="website">Веб-сайт: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="website" th:field="*{website}" required minlength="1">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="phone">Телефон: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="phone" th:field="*{phone}" required minlength="1">
+            </div>
+        </div>
+        <!-- кнопка -->
+        <div class="mb-3 row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                <button class="btn btn-success form-control">Сохранить</button>
+            </div>
+            <div class="col-sm-5">
+                <a th:href="@{/company}" class="btn btn-danger form-control">Отменить</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- добавление фрагмента футера -->
+<th:block th:replace="layout/page-layout.html :: page-footer"/>
+</body>
+</html>

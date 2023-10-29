@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <!-- добавление фрагмента общего содержимого тега head -->
+  <th:block th:replace="layout/page-layout.html :: common-head-content"/>
+</head>
+<body class="comp-d">
+
+<!-- добавление фрагмент шапки -->
+<th:block th:replace="layout/page-layout.html :: page-header(page='company')"/>
+<div class="container-fluid text-center">
+  <h1>Подробная информация о компании</h1>
+</div>
+
+<!-- вывод информации об объекте -->
+<div class="card">
+  <div class="card-header bg-dark text-light">
+    Компания
+  </div>
+  <div th:if="${company != null}" class="card-body">
+    <h5 class="card-title">[[${company.id}]] - [[${company.name}]]</h5>
+    <p class="card-text">[[${company.email}]], веб-сайт: [[${company.website}]], телефон: [[${company.phone}]]</p>
+    <p>
+      Свободные машины:
+      <ol>
+        <li th:each="truck: ${company.trucks}">
+          [[${truck.truckModel}]]
+        </li>
+      </ol>
+    </p>
+    <a th:href="@{'/truck/new/' + ${company.id}}" class="btn btn-success" sec:authorize="hasRole('ADMIN')">Добавить новую машину</a>
+    <a th:href="@{/company}" class="btn btn-primary">Обратно к списку компаний</a>
+
+  </div>
+
+  <div th:if="${company == null}" class="card-body">
+    <h5 class="card-title bg-danger text-light">Компания не найдена</h5>
+    <p class="card-text">Указан неверный id компании</p>
+    <a th:href="@{/company}" class="btn btn-primary">Обратно к списку компаний</a>
+  </div>
+</div>
+
+<!-- добавление фрагмента футера -->
+<th:block th:replace="layout/page-layout.html :: page-footer"/>
+</body>
+</html>

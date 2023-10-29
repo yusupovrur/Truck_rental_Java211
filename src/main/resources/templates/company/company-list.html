@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Добавление фрагмента общего содержиомго тега head -->
+    <th:block th:replace="layout/page-layout.html :: common-head-content"/>
+
+</head>
+<body class="comp-list">
+
+<!-- добавление фрагмент шапки -->
+<th:block th:replace="layout/page-layout.html :: page-header(page='company')"/>
+
+<div class="text-center mb-5 text-white">
+    <h1>Список компаний предоставляющих в аренду грузовые машины в г.Уфа</h1>
+</div>
+
+<div class="container-fluid text-center">
+    <!-- сообщение об ошибке -->
+    <p th:if="${errorMessage != null}" class="alert alert-danger">
+        [[${errorMessage}]]
+    </p>
+    <!-- успешное сообщение -->
+    <p th:if="${successMessage != null}" class="alert alert-success">
+        [[${successMessage}]]
+    </p>
+    <!-- вывод компаний в виде таблицы -->
+    <table class="table table-bordered">
+        <!-- шапка таблицы -->
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Наименование</th>
+            <th>Email</th>
+            <th sec:authorize="hasRole('ADMIN')">Действия</th>
+        </tr>
+        </thead>
+        <!-- тело таблицы -->
+        <tbody>
+        <tr th:each="company: ${companies}">
+            <td>[[${company.id}]]</td>
+            <td>
+                <a th:href="@{'/company/' + ${company.id}}">[[${company.name}]]</a>
+            </td>
+            <td>[[${company.email}]]</td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/company/delete/' + ${company.id}}" class="btn btn-danger">Удалить</a>
+                <a th:href="@{'/company/update/' + ${company.id}}" class="btn btn-primary">Редактировать</a>
+            </td>
+        </tr>
+        <tr th:if="${companies == null}">
+            <td colspan="4">Нет записей в таблице</td>
+        </tr>
+        </tbody>
+    </table>
+    <div sec:authorize="hasRole('ADMIN')">
+        <!-- кнопка добавления новой компании -->
+        <a th:href="@{/company/new}" class="btn btn-success form-control">Добавить новую компанию</a>
+    </div>
+</div>
+<th:block th:replace="layout/page-layout.html :: page-footer"/>
+</body>
+</html>

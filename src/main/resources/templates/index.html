@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Добавление фрагмента обзего содержиомго тега head -->
+    <th:block th:replace="layout/page-layout.html :: common-head-content"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/background.css}">
+
+</head>
+<body class="index-m">
+
+<th:block th:replace="layout/page-layout.html :: page-header(page='index')"/>
+
+
+<div
+        id="intro-example"
+        class="p-5 text-center bg-image">
+
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.7);">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white">
+                <h1 class="mb-3">Truck Rental</h1>
+                <h5 class="mb-4">Справочник транспортных компаний г.Уфа, предоставляющих грузовые автомобили в аренду</h5>
+                <a
+                        class="btn btn-outline-light btn-lg m-2"
+                        th:classappend="${page=='company'? 'active': ''}"
+                        th:href="@{/company}"
+                        role="button"
+                        rel="nofollow"
+
+                >Компании</a>
+                <a
+                        class="btn btn-outline-light btn-lg m-2"
+                        th:classappend="${page=='truck'? 'active': ''}"
+                        th:href="@{/truck}"
+                        role="button"
+                >Каталог машин</a>
+
+                <div class="slideshow-container mt-4">
+                    <div class="mySlides ps-5 pe-5">
+                        <h5>Интересный факт №1:</h5>
+                        <p>Первый в мире грузовой автомобиль, оснащенный двигателем внутреннего сгорания, был построен
+                            Готлибом Даймлером в 1896 году.</p>
+
+                    </div>
+                    <div class="mySlides ps-5 pe-5">
+                        <h5>Интересный факт №2:</h5>
+                        <p>А вот первый грузовик с дизельным мотором появился лишь в 1923-м – его «отцом» стал немецкий
+                            инженер Карл Бенц.</p>
+                    </div>
+                    <div class="mySlides ps-5 pe-5">
+                        <h5>Интересный факт №3:</h5>
+                        <p>Самый большой грузовик в мире – БелАЗ-75710 – он имеет грузоподъемность 450 тонн, но на
+                            практике он способен «принять на борт» даже больше.</p>
+                    </div>
+                    <div class="prev" onclick="plusSlides(-1)">&#10094;</div>
+                    <div class="next" onclick="plusSlides(1)">&#10095;</div>
+                </div>
+                <br>
+                <script>
+                    var slideIndex = 1;
+                    showSlides(slideIndex);
+
+                    function plusSlides(n) {
+                        showSlides(slideIndex += n);
+                    }
+
+                    function currentSlide(n) {
+                        showSlides(slideIndex = n);
+                    }
+
+                    function showSlides(n) {
+                        var i;
+                        var slides = document.getElementsByClassName("mySlides");
+                        var dots = document.getElementsByClassName("dot");
+                        if (n > slides.length) {
+                            slideIndex = 1
+                        }
+                        if (n < 1) {
+                            slideIndex = slides.length
+                        }
+                        for (i = 0; i < slides.length; i++) {
+                            slides[i].style.display = "none";
+                        }
+                        for (i = 0; i < dots.length; i++) {
+                            dots[i].className = dots[i].className.replace(" active", "");
+                        }
+                        slides[slideIndex - 1].style.display = "block";
+                        dots[slideIndex - 1].className += " active";
+                    }
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="layout/fragments.html :: test-fragment">
+
+</div>
+<th:block th:replace="layout/page-layout.html :: page-footer"/>
+</body>
+</html>

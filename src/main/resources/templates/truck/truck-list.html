@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Добавление фрагмента общего содержиомго тега head -->
+    <th:block th:replace="layout/page-layout.html :: common-head-content"/>
+
+</head>
+
+<body class="truck-l">
+
+<!-- добавление фрагмент шапки -->
+<th:block th:replace="layout/page-layout.html :: page-header(page='truck')"/>
+
+<div class="container-fluid text-center ">
+    <!-- сообщение об ошибке -->
+    <p th:if="${errorMessage != null}" class="alert alert-danger">
+        [[${errorMessage}]]
+    </p>
+    <!-- успешное сообщение -->
+    <p th:if="${successMessage != null}" class="alert alert-success">
+        [[${successMessage}]]
+    </p>
+    <!-- вывод машин в виде таблицы -->
+    <table class="table table-bordered">
+        <!-- шапка таблицы -->
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Компания</th>
+            <th>Марка машины</th>
+            <th>Грузоподъемность, тонн</th>
+            <th>Цена аренды</th>
+
+        </tr>
+        </thead>
+        <!-- тело таблицы -->
+        <tbody>
+        <tr th:each="truck: ${trucks}">
+            <td>
+                [[${truck.id}]]
+            </td>
+            <td>
+                <a th:href="@{'/company/' + ${truck.company.id}}">[[${truck.company.name}]]</a>
+            </td>
+            <td>[[${truck.truckModel}]]</td>
+            <td>[[${truck.capacity}]]</td>
+            <td>[[${truck.rent}]]</td>
+        </tr>
+        <tr th:if="${trucks == null}">
+            <td colspan="5">Нет записей в таблице</td>
+        </tr>
+        </tbody>
+    </table>
+    <div sec:authorize="hasRole('ADMIN')">
+        <!-- кнопка добавления новой машины -->
+        <a th:href="@{/truck/new}" class="btn btn-success form-control">Добавить новую машину</a>
+    </div>
+</div>
+<th:block th:replace="layout/page-layout.html :: page-footer"/>
+</body>
+</html>
